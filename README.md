@@ -1,4 +1,4 @@
-# Komunikator — LAN Peer‑to‑Peer Messenger
+# Communicator — LAN Peer‑to‑Peer Messenger
 
 > A Windows desktop instant‑messaging application that lets two or more computers on the
 > same local network chat directly over **UDP**, with conversation history persisted locally
@@ -21,9 +21,7 @@
 
 > ⚠️ **This project is a learning/prototype build.** Out of the box it will **not** run on a
 > machine other than the original author's without a small code change — see
-> [Quickstart → Important caveats](#-quickstart) before you build. A full engineering review of
-> strengths, weaknesses and a score is in [`PROS_AND_CONS.md`](./PROS_AND_CONS.md) and
-> [`EVALUATION.md`](./EVALUATION.md).
+> [Quickstart → Important caveats](#-quickstart) before you build.
 
 ---
 
@@ -176,7 +174,7 @@ flowchart TB
 > **Design characteristic:** state is centralised in the `DataAccess` singleton's
 > `BindableCollection<UserModel>`, which is shared by every ViewModel and also mutated by the
 > background network thread in `Connection`. This keeps the code compact but couples everything to
-> a global mutable object — see [`PROS_AND_CONS.md`](./PROS_AND_CONS.md) for the trade‑offs.
+> a global mutable object (see [Known Limitations](#-known-limitations) for the trade‑offs).
 
 ---
 
@@ -220,8 +218,7 @@ Komunikator/
 
 > 🧹 **Repository hygiene note:** the repository also contains build output (`bin/`, `obj/`, the
 > Visual Studio `.vs/` folder, hundreds of `*_wpftmp` temp files) and the `.db` file. These are
-> generated artifacts that would normally be excluded with a `.gitignore`. See
-> [`PROS_AND_CONS.md`](./PROS_AND_CONS.md).
+> generated artifacts that would normally be excluded with a `.gitignore`.
 
 ---
 
@@ -384,13 +381,11 @@ A minimal, text‑based, connectionless protocol over UDP.
 
 > **Caveats:** the `senderIP`/`senderPort` are taken from the *payload*, not the real socket source
 > (trivially spoofable); a message body containing `;` breaks parsing; malformed datagrams throw and
-> silently kill the receive loop. Details in [`PROS_AND_CONS.md`](./PROS_AND_CONS.md).
+> silently kill the receive loop.
 
 ---
 
 ## 🚧 Known Limitations
-
-A brief list (full analysis in [`PROS_AND_CONS.md`](./PROS_AND_CONS.md)):
 
 - **Not portable** — hardcoded absolute DB path; no runtime schema bootstrap.
 - **Thread safety** — the EF `DbContext` and the UI `BindableCollection` are mutated from the
@@ -438,9 +433,3 @@ A brief list (full analysis in [`PROS_AND_CONS.md`](./PROS_AND_CONS.md)):
 | Nieznany | Unknown (default login for auto‑registered peers) |
 | ja | me (owner tag for locally sent messages) |
 | `RECIVED` / `Unavailebilaty` | misspellings of *Received* / *Unavailability* in the code |
-
----
-
-*This documentation package was produced by a source‑level review of the repository. See
-[`EVALUATION.md`](./EVALUATION.md) for a scored assessment and [`ADDITIONAL.md`](./ADDITIONAL.md)
-for candidate/skills insights and job‑matching guidance.*
